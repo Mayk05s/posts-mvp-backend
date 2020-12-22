@@ -1,9 +1,8 @@
 import { IsInt, IsString } from 'class-validator';
+import { ApiHideProperty } from '@nestjs/swagger';
 
 export class PostDto {
-  @IsInt()
-  readonly id?: number;
-
+  @ApiHideProperty()
   @IsInt()
   readonly userId: number;
 
