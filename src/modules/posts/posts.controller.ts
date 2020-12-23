@@ -10,17 +10,17 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(): Promise<PostEntity[]> {
+  async findAll(): Promise<PostEntity[]> {
     return this.postsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<PostEntity> {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<PostEntity> {
     return this.postsService.findOne(id);
   }
 
   @Post()
-  create(@Body() postDto: PostDto): Promise<PostEntity> {
+  async create(@Body() postDto: PostDto): Promise<PostEntity> {
     return this.postsService.create(postDto);
   }
 }

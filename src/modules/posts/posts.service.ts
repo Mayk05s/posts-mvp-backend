@@ -33,7 +33,6 @@ export class PostsService {
   public async fixtures() {
     const promisePosts = [];
     defaultPosts.forEach((post) => {
-      // delete post.id;
       promisePosts.push(this.postsRepository.save(post));
     });
     return Promise.all(promisePosts);
