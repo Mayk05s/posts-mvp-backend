@@ -3,7 +3,7 @@ import { PostEntity } from './entities/post.entity';
 import { PostDto } from './dto/post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import defaultPosts from './default-posts.json';
+import defaultPosts from '../../fixtures/posts.json';
 
 @Injectable()
 export class PostsService {

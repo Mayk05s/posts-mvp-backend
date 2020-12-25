@@ -11,18 +11,16 @@ function swaggerInit(app) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const configService = app.get(ConfigService);
-  const postsService = app.get(PostsService);
   const port = configService.get('PORT');
+  const database = configService.get('database');
+  if (database.type === 'sqlite') {
+    const postsService = app.get(PostsService);
+    await postsService.fixtures();
+  }
 
   swaggerInit(app);
-  await postsService.fixtures();
-
-  app.enableCors({
-    origin: true,
-    credentials: true,
-  });
   await app.listen(port);
 }
 

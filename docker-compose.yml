@@ -1,14 +1,13 @@
 version: '3'
 services:
   posts-mvp-backend:
-    image: "node:14"
     container_name: posts-mvp-backend
     build:
       context: .
     expose:
       - ${PORT}
     working_dir: /app
-    command: npm run start
+    command: npm run start:dev
     volumes:
       - .:/app
       - /app/node_modules
@@ -19,23 +18,20 @@ services:
       - mysql
     links:
       - mysql
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=${NODE_ENV}
       - PORT=3000
       - MYSQL_CONNECTION_HOST=mysql
+      - DATABASE_TYPE=mysql
   mysql:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      - MYSQL_DATABASE=${MYSQL_CONNECTION_DATABASE:-posts-mvp_db}
+      - MYSQL_DATABASE=${MYSQL_CONNECTION_DATABASE:-posts_mvp}
       - MYSQL_USER=${MYSQL_CONNECTION_USER:-user}
       - MYSQL_PASSWORD=${MYSQL_CONNECTION_PASSWORD:-secret}
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD:-yes}
     ports:
       - 3306:3306
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080

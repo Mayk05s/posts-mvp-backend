@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { ApiTags } from '@nestjs/swagger';
 import { PostEntity as PostEntity } from './entities/post.entity';
@@ -16,7 +16,11 @@ export class PostsController {
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<PostEntity> {
-    return this.postsService.findOne(id);
+    const post = await this.postsService.findOne(id);
+    if (!post) {
+      throw new NotFoundException(`Post Id: '${id}' not found`);
+    }
+    return post;
   }
 
   @Post()
